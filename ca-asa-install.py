@@ -45,6 +45,7 @@ url_cert = server + api_path_cert
 api_path_pin = "/api/cli"    # param
 url_pin = server + api_path_pin
 
+
 # Requset cert and export to pkcs12
 def RequestPKCS12(certpath, datename, webroot, domain, domain2):
     if test-cert:
@@ -70,10 +71,11 @@ def RequestPKCS12(certpath, datename, webroot, domain, domain2):
     with open(certpath + datename + '.p12', 'w') as p12file:
         p12file.write(cert_p12)
 
+
 # Form post data
 def FormPostAddCert(certpath, datename, secret):
     list = ['-----BEGIN PKCS12-----']
-    with open(certpath + datename + '.p12','rb') as cert:
+    with open(certpath + datename + '.p12', 'rb') as cert:
         encoded_string = base64.b64encode(cert.read())
     c = encoded_string
     while len(c) > 64:
@@ -82,13 +84,15 @@ def FormPostAddCert(certpath, datename, secret):
     else:
         list.append(c)
     list.append('-----END PKCS12-----')
-    add_cert = json.dumps({'certPass':secret, 'kind':'object#IdentityCertificate', 'certText':list, 'name':datename})
+    add_cert = json.dumps({'certPass': secret, 'kind': 'object#IdentityCertificate', 'certText': list, 'name': datename})
     return add_cert
+
 
 def FormPostPinCert(datename, interface):
     interface1 = 'ssl trust-point ' + datename + ' ' + interface
-    pin_cert = json.dumps({'commands':[interface1, 'write']})
+    pin_cert = json.dumps({'commands': [interface1, 'write']})
     return pin_cert
+
 
 # Action
 def PostRequest(url, post_data, headers, username, password):
@@ -97,7 +101,7 @@ def PostRequest(url, post_data, headers, username, password):
     req = urllib2.Request(url, post_data, headers)
     req.add_header("Authorization", "Basic %s" % base64string)
     try:
-        f  = urllib2.urlopen(req)
+        f = urllib2.urlopen(req)
         status_code = f.getcode()
         print "Status code is "+str(status_code)
         if status_code == 201:
@@ -112,6 +116,7 @@ def PostRequest(url, post_data, headers, username, password):
             pass
     finally:
         if f:  f.close()
+
 
 def main():
     pass
