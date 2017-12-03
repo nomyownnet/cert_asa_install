@@ -3,7 +3,7 @@ This script requests certificate from letsencrypt.org and installs it on cisco a
 # Requirements
 Suppose you have vpn.domain.com. URL https://vpn.domain.com reserved for Cisco 'Anyconnect' portal and for connection to vpn with 'Anyconnect' client.
 http://vpn.domain.com are server, where script will be used.
-![OUTLINE](/outline.png)
+![OUTLINE](outline.png)
 
 Software:
 1. Cisco ASA 9.6.3(1) and higher
