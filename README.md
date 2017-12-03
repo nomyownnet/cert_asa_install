@@ -3,7 +3,7 @@ This script requests certificate from letsencrypt.org and installs it on cisco a
 # Requirements
 Suppose you have vpn.domain.com. URL https://vpn.domain.com reserved for Cisco 'Anyconnect' portal and for connection to vpn with 'Anyconnect' client.
 http://vpn.domain.com are server, where script will be used.
-![GitHub Logo](/images/logo.png)
+![OUTLINE](/outline.png)
 
 Software:
 1. Cisco ASA 9.6.3(1) and higher
@@ -16,15 +16,17 @@ The script uses webroot method for check you are owner of domain name.
 -------------------------------------------------------------------------
 ## Preparing.
 Cisco asa:
-boot system disk0:/asa963-17-smp-k8.bin
-rest-api image disk0:/asa-restapi-132100-lfbff-k8.SPA
-rest-api agent
+```bash
+ciscoasa(config)# boot system disk0:/asa963-17-smp-k8.bin
+ciscoasa(config)# rest-api image disk0:/asa-restapi-132100-lfbff-k8.SPA
+ciscoasa(config)# rest-api agent
+```
 
 Script-machine:
 ```bash
-yum install nginx certbot -y
-mkdir -p /var/www/html/letsencrypt
-cat <<EOF >> /etc/nginx/conf.d/vpn.domian.com.conf
+[netadmin@server]# yum install nginx certbot -y
+[netadmin@server]# mkdir -p /var/www/html/letsencrypt
+[netadmin@server]# cat <<EOF >> /etc/nginx/conf.d/vpn.domian.com.conf
 server {
     listen       80;
     server_name  vpn.domain.com;
@@ -33,8 +35,8 @@ server {
     }
 }
 EOF
-systemctl enable nginx
-systemctl start nginx
+[netadmin@server]# systemctl enable nginx
+[netadmin@server]# systemctl start nginx
 ```
 ## Getting script
 
@@ -72,7 +74,7 @@ pin = True
 
 ## Run script
 ```bash
-[netadmin@jet-gns3-vm certinstal]# ./ca-install.py
+[netadmin@server]# ./cainstall.py
 Status code is 201
 Create was successful
 Status code is 200
