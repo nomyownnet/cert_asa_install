@@ -74,7 +74,7 @@ pin = True
 
 ## Run script
 ```bash
-[netadmin@server]# ./cainstall.py
+[netadmin@server]# ./certinstall.py
 Status code is 201
 Create was successful
 Status code is 200
