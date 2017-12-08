@@ -50,7 +50,7 @@ url_pin = server + api_path_pin
 # Requset cert and export to pkcs12
 def RequestPKCS12(certpath, datename, webroot, domain):
     global testcert
-    if testcert == True:
+    if 'True' in testcert:
         params = ['certbot', '-n', 'certonly', '--test-cert', '--webroot', '-w', webroot, '-d', domain]
     else:
         params = ['certbot', '-n', 'certonly', '--webroot', '-w', webroot, '-d', domain]
@@ -137,5 +137,5 @@ pin_cert = FormPostPinCert(datename, interface)
 PostRequest(url_cert, add_cert, headers, username, password)
 
 # Post operation - pin cert to interface
-if pin == True:
+if 'True' in pin:
     PostRequest(url_pin, pin_cert, headers, username, password)
