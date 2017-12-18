@@ -145,9 +145,9 @@ Delete trustpoint from cisco asa.
 ```bash
 ciscoasa(config)#no crypto ca trustpoint 20171203 noconfirm
 ```
-2. Keypair name VPN_TP_Sep2013 already exist
+2. Keypair name VPN_TP_Sep2013 already exist. 
 Delete keypair from cisco asa.
 ```bash
-ciscoasa(config)# no crypto key zeroize rsa label trustpoint_name noconfirm
+ciscoasa(config)# crypto key zeroize rsa label trustpoint_name noconfirm
 ```
 
