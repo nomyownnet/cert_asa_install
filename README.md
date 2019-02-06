@@ -24,6 +24,7 @@ ciscoasa(config)# rest-api agent
 
 Script-machine:
 ```bash
+[netadmin@server]# yum install epel-release -y
 [netadmin@server]# yum install nginx certbot -y
 [netadmin@server]# mkdir -p /var/www/html/letsencrypt
 [netadmin@server]# cat <<EOF >> /etc/nginx/conf.d/vpn.domian.com.conf
