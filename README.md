@@ -71,6 +71,8 @@ webroot = /var/www/html/letsencrypt/
 testcert = False
 # Import certificate to cisco asa with or without pinning to interface 
 pin = True
+# Email address for important account notifications from Let's Encrypt
+email = someone@example.com
 ```
 
 ## Run script
