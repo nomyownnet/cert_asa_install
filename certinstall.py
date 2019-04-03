@@ -10,6 +10,7 @@ import ssl
 import subprocess
 import sys
 import urllib2
+import sys
 
 # Date
 t = datetime.now()
@@ -17,8 +18,12 @@ datename = t.strftime("%Y%m%d")
 
 # Configuration
 parser = ConfigParser.ConfigParser()
-parser.read('config.ini')
-
+if len(sys.argv) > 1:
+    parser.read(sys.argv[1])
+else:
+    parser.read('config.ini')
+	
+	
 ipaddress = parser.get('options', 'ipaddress')
 username = parser.get('options', 'username')
 password = parser.get('options', 'password')
