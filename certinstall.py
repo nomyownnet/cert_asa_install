@@ -30,6 +30,7 @@ certpath = parser.get('options', 'certpath')
 webroot = parser.get('options', 'webroot')
 testcert = parser.get('options', 'testcert')
 pin = parser.get('options', 'pin')
+email = parser.get('options', 'email')
 
 # Untrusted connection to asa mgmt
 ssl._create_default_https_context = ssl._create_unverified_context
@@ -53,7 +54,7 @@ def RequestPKCS12(certpath, datename, webroot, domain):
     if 'True' in testcert:
         params = ['certbot', '-n', 'certonly', '--test-cert', '--webroot', '-w', webroot, '-d', domain]
     else:
-        params = ['certbot', '-n', 'certonly', '--webroot', '-w', webroot, '-d', domain]
+        params = ['certbot', '-n', 'certonly', '--webroot', '-w', webroot, '-d', domain, '--agree-tos', '--email', email]
     get_cert = util.run_script(params)
 
     key_pem = open(certpath + 'privkey.pem', 'r').read()
