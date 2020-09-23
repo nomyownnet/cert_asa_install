@@ -27,7 +27,7 @@ Script-machine:
 [netadmin@server]# yum install epel-release -y
 [netadmin@server]# yum install nginx certbot -y
 [netadmin@server]# mkdir -p /var/www/html/letsencrypt
-[netadmin@server]# cat <<EOF >> /etc/nginx/conf.d/vpn.domian.com.conf
+[netadmin@server]# cat <<EOF >> /etc/nginx/conf.d/vpn.domain.com.conf
 server {
     listen       80;
     server_name  vpn.domain.com;
