@@ -8,7 +8,7 @@ http://vpn.domain.com are server, where script will be used.
 Software:
 1. Cisco ASA 9.6.3(1) and higher
 2. Rest API 1.3.0 and higher
-3. Python 2.7
+3. Python 3.7
 
 The script uses webroot method for check you are owner of domain name. 
 
@@ -47,79 +47,86 @@ or
 curl -O https://github.com/nomyownnet/ca-asa-install/archive/master.zip
 ```
 
-## Filling config file
+## Filling params file
 
 ```bash
 [options]
 # Management ip address of cisco asa 
-ipaddress = 10.0.0.1 
+ipaddress: "10.0.0.1"
 # Credentionals. Be sure, that your account has admin rights.
-username = admin
-password = P@ssw0rd
+username: "admin"
+password: "P@ssw0rd"
 # Port of admin portal cisco asa, not vpn.
-port = 443
-# Password for pkcs12. Be sure, that it's not 'root' or 'qwerty'
-secret = Passforca!23
+port: 443
 # Interface cisco asa, on which anyconnect works. 
-interface = inside
-domain = vpn.domain.com
+interface: "inside"
+domain: "vpn.domain.com"
 # Path to private key, cert and chain. Default value for Centos 7.
-certpath = /etc/letsencrypt/live/vpn.domain.com/
+certpath: "/etc/letsencrypt/live/vpn.domain.com/"
 # Path for check domain name
-webroot = /var/www/html/letsencrypt/
+webroot: "/var/www/html/letsencrypt/"
+# Email address for important account notifications from Let's Encrypt
+email: "someone@example.com"
+# Password for pkcs12. Be sure, that it's not 'root' or 'qwerty'
+secret: "cisco"
 # Getting test certificate.
 testcert = False
 # Import certificate to cisco asa with or without pinning to interface 
 pin = True
-# Email address for important account notifications from Let's Encrypt
-email = someone@example.com
 ```
 
-## Run script
+## Run script. It can take the path to the config as argumnt. The default path is "../configs/config.yaml"
 ```bash
-[netadmin@server]# ./certinstall.py
-Status code is 201
-Create was successful
-Status code is 200
+[netadmin@server]# ./certasainstall.py ../configs/config.yaml
+The certificate has been installed succefully.
+The certificate has been pinned to the interface.
 ```
 ## Verifying
 The script creates trustpoint with current date as a name.
 
 ```bash
 ciscoasa# sh crypto ca certificate trustpoint_name
-Certificate
-  Status: Available
-  Certificate Serial Number: 00fac88ca26cf89ef77ad256e2ddbbcf1eb919
-  Certificate Usage: General Purpose
-  Public Key Type: RSA (2048 bits)
-  Signature Algorithm: SHA256 with RSA Encryption
-  Issuer Name:
-    cn=Fake LE Intermediate X1
-  Subject Name:
-    cn=vpn.domain.com
-  OCSP AIA:
-    URL: http://ocsp.stg-int-x1.letsencrypt.org
-  Validity Date:
-    start date: 22:58:35 MSK Dec 3 2017
-    end   date: 22:58:35 MSK Mar 3 2018
-  Associated Trustpoints: 20171204
-
 CA Certificate
   Status: Available
-  Certificate Serial Number: 008be12a0e5944ed3c546431f097614fe5
+  Certificate Serial Number: 4df42b95d1ee9b3a4c2eb33b8d105dd6
   Certificate Usage: Signature
   Public Key Type: RSA (2048 bits)
   Signature Algorithm: SHA256 with RSA Encryption
-  Issuer Name:
-    cn=Fake LE Root X1
+  Issuer Name: 
+    cn=(STAGING) Pretend Pear X1
+    o=(STAGING) Internet Security Research Group
+    c=US
+  Subject Name: 
+    cn=(STAGING) Artificial Apricot R3
+    o=(STAGING) Let's Encrypt
+    c=US
+  CRL Distribution Points: 
+    [1]  http://stg-x1.c.lencr.org/
+  Validity Date: 
+    start date: 00:00:00 UTC Sep 4 2020
+    end   date: 16:00:00 UTC Sep 15 2025
+  Storage: config
+  Associated Trustpoints: 20220621 
+
+Certificate
+  Status: Available
+  Certificate Serial Number: 00fa91301208ae678236ea17cf95b885129f7b
+  Certificate Usage: General Purpose
+  Public Key Type: RSA (2048 bits)
+  Signature Algorithm: SHA256 with RSA Encryption
+  Issuer Name: 
+    cn=(STAGING) Artificial Apricot R3
+    o=(STAGING) Let's Encrypt
+    c=US
   Subject Name:
-    cn=Fake LE Intermediate X1
-  OCSP AIA:
-    URL: http://ocsp.stg-root-x1.letsencrypt.org/
-  Validity Date:
-    start date: 01:07:59 MSK May 24 2016
-    end   date: 01:07:59 MSK May 24 2036
-  Associated Trustpoints: 20171204 20171129
+    cn=vpn.domain.com
+  OCSP AIA: 
+    URL: http://stg-r3.o.lencr.org
+  Validity Date: 
+    start date: 22:18:15 UTC Jun 20 2022
+    end   date: 22:18:14 UTC Sep 18 2022
+  Storage: config
+  Associated Trustpoints: 20220621 
 
 ciscoasa# show run | i trust
 ... <truncated output>...
@@ -132,7 +139,7 @@ ssl trust-point trustpoint_name vpn_interface
 ## Possible errors
 1. TrustPoint 'trustpoint_name' name is already assigned with CA certificate
 ```bash
-Error received from server. HTTP Status code :400
+Something went wrong.
 {
     "messages": [
         {
@@ -146,7 +153,7 @@ Error received from server. HTTP Status code :400
 ```
 Delete trustpoint from cisco asa.
 ```bash
-ciscoasa(config)#no crypto ca trustpoint 20171203 noconfirm
+ciscoasa(config)#no crypto ca trustpoint 20220621 noconfirm
 ```
 2. Keypair name VPN_TP_Sep2013 already exist. 
 Delete keypair from cisco asa.

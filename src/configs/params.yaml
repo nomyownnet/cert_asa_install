@@ -1,0 +1,12 @@
+ipaddress: "10.0.0.1"
+username: "admin"
+password: "P@ssw0rd"
+port: 443
+interface: "inside"
+domain: "vpn.domain.com"
+certpath: "/etc/letsencrypt/live/vpn.domain.com/"
+webroot: "/var/www/html/letsencrypt/"
+email: "someone@example.com"
+secret: "cisco"
+test: False
+pin: True
