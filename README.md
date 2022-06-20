@@ -75,7 +75,8 @@ testcert = False
 pin = True
 ```
 
-## Run script. It can take the path to the config as argumnt. The default path is "../configs/config.yaml"
+## Run script. 
+It can take the path to the config as argumnt. The default path is "../configs/config.yaml"
 ```bash
 [netadmin@server]# ./certasainstall.py ../configs/config.yaml
 The certificate has been installed succefully.
