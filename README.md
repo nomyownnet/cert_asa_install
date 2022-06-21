@@ -1,4 +1,4 @@
-This script requests certificate from letsencrypt.org and installs it on cisco asa. Tested with python 2.7
+This script requests certificate from letsencrypt.org and installs it on cisco asa. Tested with python 3.7
 
 # Requirements
 Suppose you have vpn.domain.com. URL https://vpn.domain.com reserved for Cisco 'Anyconnect' portal and for connection to vpn with 'Anyconnect' client.
