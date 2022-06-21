@@ -50,7 +50,6 @@ curl -O https://github.com/nomyownnet/ca-asa-install/archive/master.zip
 ## Filling params file
 
 ```bash
-[options]
 # Management ip address of cisco asa 
 ipaddress: "10.0.0.1"
 # Credentionals. Be sure, that your account has admin rights.
